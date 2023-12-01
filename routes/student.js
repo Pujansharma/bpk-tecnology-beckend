@@ -27,6 +27,22 @@ noteRoute.get("/alldata",async(req,res)=>{
     }
 })
 
+
+noteRoute.get("/alldata/:id", async (req, res) => {
+    try {
+        let ID = req.params.id;
+        let data = await StudentData.findOne({ _id: ID }); // Assuming '_id' is the default ObjectId field in MongoDB
+
+        if (!data) {
+            return res.status(404).json({ message: "Data not found" });
+        }
+
+        res.status(200).send(data);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 noteRoute.post("/add", async (req, res) => {
     try {
         var { firstname, lastname, phone_number, DOB, gender, address } = req.body;
